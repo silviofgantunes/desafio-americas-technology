@@ -1,0 +1,10 @@
+# cat Dockerfile
+FROM mysql:latest
+
+LABEL MAINTAINER="baeldung.com"
+
+RUN chown -R mysql:root /var/lib/mysql/
+
+ENV MYSQL_ROOT_PASSWORD=root
+
+EXPOSE 3307
