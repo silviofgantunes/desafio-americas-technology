@@ -1,10 +1,15 @@
-# cat Dockerfile
-FROM mysql:latest
+# Use an official MySQL runtime as a parent image
+FROM mysql
 
-LABEL MAINTAINER="baeldung.com"
+# Set the working directory to /app
+WORKDIR /app
 
-RUN chown -R mysql:root /var/lib/mysql/
+# Copy the current directory contents into the container at /app
+COPY . /app
 
+# Define environment variable
 ENV MYSQL_ROOT_PASSWORD=root
+ENV MYSQL_DATABASE=db_americas_technology
 
-EXPOSE 3307
+# Expose port 3306 to allow external connections to the database
+EXPOSE 3306

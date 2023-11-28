@@ -4,6 +4,7 @@ import (
 	"crud-users/docs"
 	"crud-users/models"
 	"crud-users/routers"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -30,7 +31,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 }
 
 func main() {
-	dsn := "root:@tcp(http://localhost:3306)/db_desafio?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:root@tcp(database-americas-technology:3306)/db_americas_technology?charset=utf8mb4&parseTime=True&loc=Local"
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
@@ -43,9 +44,13 @@ func main() {
 		panic("Failed to migrate the database")
 	}
 
+	hostIP := "host.docker.internal"
+
+	swaggerURL := fmt.Sprintf("http://%s:8080/swagger/doc.json", hostIP)
+
 	r := SetupRouter(db)
 
-	url := ginSwagger.URL("http://localhost:8080/swagger/doc.json")
+	url := ginSwagger.URL(swaggerURL)
 
 	docs.SwaggerInfo.BasePath = "/api/v1"
 

@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"order-service/docs"
 	"order-service/models"
 	"order-service/routers"
 
@@ -23,14 +25,14 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	routers.SetupOrderRoutes(r, db)
 
 	// Setup Swagger documentation route
-	url := ginSwagger.URL("http://localhost:8081/swagger/doc.json")
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
+	//url := ginSwagger.URL("http://localhost:8081/swagger/doc.json")
+	//r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
 	return r
 }
 
 func main() {
-	dsn := "root:@tcp(127.0.0.1:3306)/db_desafio?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:root@tcp(database-americas-technology:3306)/db_americas_technology?charset=utf8mb4&parseTime=True&loc=Local"
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
@@ -43,7 +45,17 @@ func main() {
 		panic("Failed to migrate the database")
 	}
 
+	hostIP := "host.docker.internal"
+
+	swaggerURL := fmt.Sprintf("http://%s:8081/swagger/doc.json", hostIP)
+
 	r := SetupRouter(db)
+
+	url := ginSwagger.URL(swaggerURL)
+
+	docs.SwaggerInfo.BasePath = "/api/v1"
+
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
 	// Run the application
 	r.Run(":8081")

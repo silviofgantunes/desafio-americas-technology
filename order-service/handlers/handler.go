@@ -104,7 +104,7 @@ func CreateOrder(c *gin.Context) {
 // @Description Delete a limit order by ID
 // @Produce json
 // @Param id path string true "Order ID"
-// @Success 200 {object} gin.H
+
 // @Router /orders/limit/{id} [delete]
 func DeleteLimitOrder(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)

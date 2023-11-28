@@ -1,15 +1,17 @@
 # Use an official Golang runtime as a parent image
 FROM golang
 
-# Set the working directory to /crud-users
-WORKDIR /crud-users
+# Set the working directory to /app
+WORKDIR /app
 
-# Copy the current directory contents into the container at /crud-users
-COPY . /crud-users
+# Copy the current directory contents into the container at /app
+ADD . /app
 
-# Build the crud-users command inside the container
-RUN go mod download
-RUN go build -o crud-users .
+# Build the Go app
+RUN go build -o main .
 
-# Run the crud-users command when the container starts
-CMD ["./crud-users"]
+# Expose port 8080 to the outside world
+EXPOSE 8080
+
+# Command to run the executable
+CMD ["./main"]
