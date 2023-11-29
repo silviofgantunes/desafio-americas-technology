@@ -1,3 +1,5 @@
+// ./crud-users/main.go
+
 package main
 
 import (
@@ -5,6 +7,8 @@ import (
 	"crud-users/models"
 	"crud-users/routers"
 	"fmt"
+	"log"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -31,22 +35,32 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 }
 
 func main() {
-	dsn := "root:root@tcp(database-americas-technology:3306)/db_americas_technology?charset=utf8mb4&parseTime=True&loc=Local"
+	// Get containerName from environment variable
+	containerName := os.Getenv("CONTAINER_DB")
+
+	// Check if containerName is empty
+	if containerName == "" {
+		log.Println("CONTAINER_DB environment variable is not set.")
+		return
+	}
+
+	// Format the dsn string with the containerName
+	dsn := fmt.Sprintf("root:root@tcp(%s:3306)/db_americas_technology?charset=utf8mb4&parseTime=True&loc=Local", containerName)
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		panic("Failed to connect to the database")
+		log.Println("Failed to connect to the database.")
+		return
 	}
 
 	// AutoMigrate will create the necessary table. You can also use CreateTable to only create the table if it does not exist.
 	err = db.AutoMigrate(&models.User{})
 	if err != nil {
-		panic("Failed to migrate the database")
+		log.Println("Failed to migrate the database.")
+		return
 	}
 
-	hostIP := "host.docker.internal"
-
-	swaggerURL := fmt.Sprintf("http://%s:8080/swagger/doc.json", hostIP)
+	swaggerURL := "http://localhost:8080/swagger/doc.json"
 
 	r := SetupRouter(db)
 

@@ -1,3 +1,4 @@
+# ./auth-service/Dockerfile
 # Use an official Golang runtime as a parent image
 FROM golang
 

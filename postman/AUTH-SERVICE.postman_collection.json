@@ -1,0 +1,187 @@
+{
+	"info": {
+		"_postman_id": "05e233c0-fe87-4dcd-bd8a-4e75dc275027",
+		"name": "AUTH-SERVICE",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29790493"
+	},
+	"item": [
+		{
+			"name": "ListAdmins",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/v1/auth/admins",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"admins"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateAdmin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Silvio Antunes\",\n    \"email\": \"silvioantunes@email.com\",\n    \"password\": \"felipe\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/v1/auth/admins",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"admins"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateAdmin",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Silvio Felipe\",\n    \"email\": \"silviofelipe@email.com\",\n    \"password\": \"felipe\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/v1/auth/admins/71410885-9303-43db-961e-f5840837d1d2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"admins",
+						"71410885-9303-43db-961e-f5840837d1d2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteAdmin",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/v1/auth/admins/71410885-9303-43db-961e-f5840837d1d2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"admins",
+						"71410885-9303-43db-961e-f5840837d1d2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAdmin",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/v1/auth/admins/71410885-9303-43db-961e-f5840837d1d2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"admins",
+						"71410885-9303-43db-961e-f5840837d1d2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GenerateToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"jwt_token\", jsonData.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"silvioantunes@email.com\",\n    \"password\": \"felipe\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/v1/auth/generate-token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"generate-token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

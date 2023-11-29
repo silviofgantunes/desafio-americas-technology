@@ -1,3 +1,5 @@
+// ./order-service/handlers/handler.go
+
 package handlers
 
 import (
@@ -13,6 +15,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// ListOrders lists all orders
 // @Summary List all orders
 // @Description List all orders
 // @Produce json
@@ -30,6 +33,7 @@ func ListOrders(c *gin.Context) {
 	c.JSON(http.StatusOK, orders)
 }
 
+// ListOrdersByUser lists user's orders by its ID
 // @Summary List orders by user
 // @Description List orders by user
 // @Produce json
@@ -49,11 +53,15 @@ func ListOrdersByUser(c *gin.Context) {
 	c.JSON(http.StatusOK, orders)
 }
 
+// GetOrder gets an order by ID
 // @Summary Get an order by ID
-// @Description Get an order by ID
+// @Description Get order details by providing the order ID
+// @ID get-order-by-id
 // @Produce json
-// @Param id path string true "Order ID"
+// @Param id path int true "Order ID"
 // @Success 200 {object} models.Order
+// @Failure 400 {object} utils.ErrorResponse
+// @Failure 404 {object} utils.ErrorResponse
 // @Router /orders/{id} [get]
 func GetOrder(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
@@ -68,12 +76,15 @@ func GetOrder(c *gin.Context) {
 	c.JSON(http.StatusOK, order)
 }
 
+// CreateOrder creates a new order
 // @Summary Create a new order
-// @Description Create a new order
+// @Description Create a new order with the provided details
+// @ID create-order
 // @Accept json
 // @Produce json
-// @Param order body models.CreateOrderRequest true "Order details"
+// @Param order body models.Order true "Order details"
 // @Success 201 {object} models.Order
+// @Failure 400 {object} utils.ErrorResponse
 // @Router /orders [post]
 func CreateOrder(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
@@ -165,12 +176,16 @@ func checkUserExistence(userID string, bearerToken string) (string, error) {
 	return userName, nil
 }
 
-// @Summary Delete a limit order by ID
-// @Description Delete a limit order by ID
+// DeleteLimitOrder deletes an order by ID
+// @Summary Delete an order by ID
+// @Description Delete an order by providing the order ID
+// @ID delete-order
 // @Produce json
-// @Param id path string true "Order ID"
-
-// @Router /orders/limit/{id} [delete]
+// @Param id path int true "Order ID"
+// @Success 204 "No Content"
+// @Failure 400 {object} utils.ErrorResponse
+// @Failure 404 {object} utils.ErrorResponse
+// @Router /orders/{id} [delete]
 func DeleteLimitOrder(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	orderID := c.Param("id")

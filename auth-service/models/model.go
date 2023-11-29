@@ -1,3 +1,5 @@
+// ./auth-service/models/model.go
+
 package models
 
 import (

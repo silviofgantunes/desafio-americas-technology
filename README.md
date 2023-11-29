@@ -1,6 +1,6 @@
 # desafio-americas-technology
 
-Projeto de Desenvolvimento de Microserviços para Cadastro de Usuários e Serviço de Ordens de Compra e Venda de Crypto
+Projeto de Desenvolvimento de Microserviços para Cadastro de Usuários e para Ordens de Compra e Venda de Criptoativos
 
 O propósito deste teste é avaliar suas habilidades em codificação e arquitetura em um ambiente de desenvolvimento. Você receberá um problema simples para demonstrar suas técnicas de programação, e é recomendado que você exagere um pouco na solução para destacar suas capacidades. A aplicação a ser desenvolvida deve estar pronta para produção, levando em consideração a manutenção por outros desenvolvedores ao longo do tempo.
 

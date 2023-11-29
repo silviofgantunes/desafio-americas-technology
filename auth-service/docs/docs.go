@@ -14,7 +14,193 @@ const docTemplate = `{
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
-    "paths": {}
+    "paths": {
+        "/admins": {
+            "get": {
+                "description": "List all admin users",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "List all admin users",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Admin"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new admin user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create a new admin user",
+                "operationId": "create-order",
+                "parameters": [
+                    {
+                        "description": "Admin details",
+                        "name": "admin",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Admin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.Admin"
+                        }
+                    }
+                }
+            }
+        },
+        "/admins/{id}": {
+            "get": {
+                "description": "Get an admin user by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get an admin user by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Admin ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Admin"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an admin user by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update an admin user by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Admin ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated admin details",
+                        "name": "admin",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UpdateAdminRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Admin"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete an admin user by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete an admin user by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Admin ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/generate-token": {
+            "post": {
+                "description": "Generate a Bearer Token using admin credentials and returns the token",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Generate a Bearer Token",
+                "responses": {}
+            }
+        }
+    },
+    "definitions": {
+        "models.Admin": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.UpdateAdminRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        }
+    }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it

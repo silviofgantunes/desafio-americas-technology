@@ -1,3 +1,5 @@
+// ./crud-users/models/model.go
+
 package models
 
 import (

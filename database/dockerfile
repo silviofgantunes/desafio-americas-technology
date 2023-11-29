@@ -1,3 +1,4 @@
+# ./db/Dockerfile
 # Use an official MySQL runtime as a parent image
 FROM mysql
 
@@ -6,10 +7,6 @@ WORKDIR /app
 
 # Copy the current directory contents into the container at /app
 COPY . /app
-
-# Define environment variable
-ENV MYSQL_ROOT_PASSWORD=root
-ENV MYSQL_DATABASE=db_americas_technology
 
 # Expose port 3306 to allow external connections to the database
 EXPOSE 3306

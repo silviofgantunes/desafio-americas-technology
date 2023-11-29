@@ -1,3 +1,5 @@
+// ./auth-service/routers/router.go
+
 package routers
 
 import (
@@ -12,8 +14,6 @@ func SetupAuthRoutes(r *gin.Engine) {
 	{
 		// Rotas existentes
 		v1.GET("/generate-token", handlers.GenerateToken)
-
-		// Novas rotas para admin
 		v1.POST("/admins", handlers.CreateAdmin)
 		v1.GET("/admins", handlers.ListAdmins)
 		v1.GET("/admins/:id", handlers.GetAdmin)
