@@ -83,7 +83,25 @@ The map of ports is the following: 8082 -> auth-service, 8080 -> crud-users and 
 
 HOW TO RUN THIS:
 
-GO TO THE ROOT DIRECTORY (IN THIS CASE desafio-americas-technology) AND EXECUTE THIS: 
+MacOs:
+
+Clone the repository:
+
+```zsh
+#!/bin/zsh
+
+git clone https://github.com/silviofgantunes/desafio-americas-technology.git
+```
+
+Access the repository you just created:
+
+```zsh
+#!/bin/zsh
+
+cd desafio-americas-technology/
+```
+
+In the root directory (in this case, desafio-americas-technology), run this: 
 
 ```zsh
 #!/bin/zsh
@@ -91,12 +109,46 @@ GO TO THE ROOT DIRECTORY (IN THIS CASE desafio-americas-technology) AND EXECUTE 
 chmod +x start_services.sh
 ```
 
-THEN RUN THIS:
+and then run this:
 
 ```zsh
 #!/bin/zsh
 
 ./start_services.sh
+```
+
+Windows:
+
+Clone the repository:
+
+```ps1
+#!/bin/ps1
+
+git clone https://github.com/silviofgantunes/desafio-americas-technology.git
+```
+
+Access the repository you just created:
+
+```ps1
+#!/bin/ps1
+
+cd .\desafio-americas-technology\
+```
+
+In the root directory (in this case, desafio-americas-technology), run this: 
+
+```ps1
+#!/bin/ps1
+
+icacls .\start_services.ps1 /grant Users:(RX)
+```
+
+and then run this:
+
+```ps1
+#!/bin/ps1
+
+.\start_services.ps1
 ```
 
 Some considerations about the packages/libraries most used in this project:
