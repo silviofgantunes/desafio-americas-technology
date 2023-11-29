@@ -76,7 +76,7 @@ Responses during code review and detailed description in the "pull request." App
 
 # Observations
 
-It wasn't really possible to meet all of the bonus points that have been brought up above. The code is still undercommented, and the comments that do exist are part in Portuguese and part in English. No unitary or integration tests were written for this project so far because of time constraints. In my own words, if I had to sum up what I did here for this project, I would say it consists of two CRUD applications: crud-users and order-service. With CRUD operations, the first one manages user data and the second one does orders. For both of them to be used, one needs to insert a BearerToken, which one can obtain by using a third CRUD application called auth-service that manages admin (an entity very similar to users but used only for the sake of authentication) data. One can do all typical CRUD operations with both crud-users and auth-service, but the latter has an extra endpoint: GenerateToken. With order-service, one can do all operations with the sole exception of updating an order. The deletion of an order is restricted only to limit orders. When creating a order with order-service, the application sends a request to crud-users to check if the user whose ID one inserted into the payload exists. If he or she does, then his or her name is also returned.
+It wasn't really possible to meet all of the bonus points that have been brought up above. The code is still undercommented, and the comments that do exist might be part in Portuguese and part in English. No unitary or integration tests were written for this project so far because of time constraints. In my own words, if I had to sum up what I did here for this project, I would say it consists of two CRUD applications: crud-users and order-service. With CRUD operations, the first one manages user data and the second one does orders. For both of them to be used, one needs to insert a BearerToken, which one can obtain by using a third CRUD application called auth-service that manages admin (an entity very similar to users but used only for the sake of authentication) data. One can do all typical CRUD operations with both crud-users and auth-service, but the latter has an extra endpoint: GenerateToken. With order-service, one can do all operations with the sole exception of updating an order. The deletion of an order is restricted only to limit orders. When creating a order with order-service, the application sends a request to crud-users to check if the user whose ID one inserted into the payload exists. If he or she does, then his or her name is also returned.
 Docker was used indeed with four images and four containers being set up: one for the MySQL database, a second one for the auth-service, a third one for crud-users and a fourth and last one for order-service.
 I've also uploaded a set of Postman collections (3/one for each service) and an environment. They're in the ./postman folder.
 The map of ports is the following: 8082 -> auth-service, 8080 -> crud-users and 8081 -> order-service
@@ -101,10 +101,36 @@ THEN RUN THIS:
 
 Some considerations about the packages/libraries most used in this project:
 
-gorm (gorm.io/gorm): This is a popular Go ORM (Object Relational Mapper) used for database operations. In the project, it's used for working with the MySQL database, defining models and performing CRUD operations.
-gin (github.com/gin-gonic/gin): Gin is a web framework for Go. It's widely used for building web applications and APIs. In the project, it's used to define the API routes, handle HTTP requests and manage middleware. I had some previous experience with this so it was basically a no-brainer for me to use it in this project.
-uuid (github.com/google/uuid): The UUID package is used for working with Universally Unique Identifiers (UUIDs). In the project, it's used for generating unique identifiers for entities like admins and users.
-time (time): The time package is part of the standard library and is used for handling time-related operations. In the project, it's used for setting timestamps in database records and managing token expiration times.
-os (os): Another standard library package. It provides a way to interact with the operating system. In the project, it's used for retrieving the values from environment variables.
-swaggo/gin-swagger (github.com/swaggo/gin-swagger): This package is an integration of Swagger for Go applications using the Gin framework. In the project, it's used to generate API documentation. Unfortunately, I wasn't able to use it properly for the auth-service's documentation. I'm yet to find out why nothing would show up in the browser. The documentation for both crud-users and order-service worked just right though.
-swaggerFiles (github.com/swaggo/files): This package is part of the Swagger tools for Go and is used for serving Swagger UI files. In the project, it's used for serving Swagger documentation.
+## External Packages Used in the Project
+
+1. **gorm (gorm.io/gorm):**
+   - This is a popular Go ORM (Object Relational Mapper) used for database operations.
+   - In the project, it's used for working with the MySQL database, defining models, and performing CRUD operations.
+
+2. **gin (github.com/gin-gonic/gin):**
+   - Gin is a web framework for Go, widely used for building web applications and APIs.
+   - In the project, it's used to define the API routes, handle HTTP requests, and manage middleware.
+   - The decision to use Gin was influenced by previous experience, making it a straightforward choice for this project.
+
+3. **uuid (github.com/google/uuid):**
+   - The UUID package is used for working with Universally Unique Identifiers (UUIDs).
+   - In the project, it's used for generating unique identifiers for the entities.
+
+4. **time (time):**
+   - The time package is part of the standard library and is used for handling time-related operations.
+   - In the project, it's used for setting timestamps in database records and managing token expiration times.
+
+5. **os (os):**
+   - Another standard library package providing a way to interact with the operating system.
+   - In the project, it's used for retrieving values from environment variables.
+
+6. **swaggo/gin-swagger (github.com/swaggo/gin-swagger):**
+   - This package is an integration of Swagger for Go applications using the Gin framework.
+   - In the project, it's used to generate API documentation.
+   - Note: There were challenges with properly integrating it into the auth-service's documentation (but crud-users's and order-service's fine though); investigation ongoing.
+
+7. **swaggerFiles (github.com/swaggo/files):**
+   - This package is part of the Swagger tools for Go and is used for serving Swagger UI files.
+   - In the project, it's used for serving Swagger documentation.
+
+
