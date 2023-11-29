@@ -79,7 +79,25 @@ Responses during code review and detailed description in the "pull request." App
 It wasn't really possible to meet all of the bonus points that have been brought up above. The code is still undercommented, and the comments that do exist are part in Portuguese and part in English. No unitary or integration tests were written for this project so far because of time constraints. In my own words, if I had to sum up what I did here for this project, I would say it consists of two CRUD applications: crud-users and order-service. With CRUD operations, the first one manages user data and the second one does orders. For both of them to be used, one needs to insert a BearerToken, which one can obtain by using a third CRUD application called auth-service that manages admin (an entity very similar to users but used only for the sake of authentication) data. One can do all typical CRUD operations with both crud-users and auth-service, but the latter has an extra endpoint: GenerateToken. With order-service, one can do all operations with the sole exception of updating an order. The deletion of an order is restricted only to limit orders. When creating a order with order-service, the application sends a request to crud-users to check if the user whose ID one inserted into the payload exists. If he or she does, then his or her name is also returned.
 Docker was used indeed with four images and four containers being set up: one for the MySQL database, a second one for the auth-service, a third one for crud-users and a fourth and last one for order-service.
 I've also uploaded a set of Postman collections (3/one for each service) and an environment. They're in the ./postman folder.
-The map of ports is the following: 8082 -> auth-service, 8080 -> crud-users and 8081 -> order-service 
+The map of ports is the following: 8082 -> auth-service, 8080 -> crud-users and 8081 -> order-service
+
+HOW TO RUN THIS:
+
+GO TO THE ROOT DIRECTORY (IN THIS CASE desafio-americas-technology) AND EXECUTE THIS: 
+
+```zsh
+#!/bin/zsh
+
+chmod +x start_services.sh
+```
+
+THEN RUN THIS:
+
+```zsh
+#!/bin/zsh
+
+./start_services.sh
+```
 
 Some considerations about the packages/libraries most used in this project:
 
