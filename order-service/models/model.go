@@ -35,6 +35,7 @@ const (
 type Order struct {
 	ID        string    `gorm:"type:char(36);primary_key" json:"id,omitempty"`
 	UserID    string    `gorm:"type:char(36);not null" json:"user_id,omitempty"`
+	UserName  string    `gorm:"type:varchar(255);not null" json:"user_name,omitempty"`
 	Pair      Pair      `gorm:"type:varchar(255);not null" json:"pair,omitempty"`
 	Amount    float64   `gorm:"not null" json:"amount,omitempty"`
 	Direction Direction `gorm:"type:varchar(255);not null" json:"direction,omitempty"`
@@ -46,6 +47,7 @@ type Order struct {
 // CreateOrderRequest representa a estrutura da solicitação para criar uma nova ordem
 type CreateOrderRequest struct {
 	UserID    string    `json:"user_id" binding:"required"`
+	UserName  string    `json:"user_name"`
 	Pair      Pair      `json:"pair" binding:"required"`
 	Amount    float64   `json:"amount" binding:"required"`
 	Direction Direction `json:"direction" binding:"required"`

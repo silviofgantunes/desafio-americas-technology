@@ -12,6 +12,21 @@ import (
 	"gorm.io/gorm"
 )
 
+// CheckUser verifica a existência de um usuário pelo ID
+func CheckUser(c *gin.Context) {
+	db := c.MustGet("db").(*gorm.DB)
+	userID := c.Param("id")
+
+	var user models.User
+	if err := db.First(&user, "id = ?", userID).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		return
+	}
+
+	// Em vez de retornar apenas os detalhes do usuário, retornamos o nome para uso em order-service
+	c.JSON(http.StatusOK, gin.H{"user_name": user.Name})
+}
+
 // @Summary Get a user by ID
 // @Description Get a user by ID
 // @Produce json

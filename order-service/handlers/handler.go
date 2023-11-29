@@ -1,6 +1,9 @@
 package handlers
 
 import (
+	"encoding/json"
+	"fmt"
+	"io"
 	"net/http"
 	"order-service/models"
 	"time"
@@ -76,7 +79,21 @@ func CreateOrder(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	var req models.CreateOrderRequest
 
+	// Retrieve the Bearer token from the Authorization header
+	bearerToken := c.GetHeader("Authorization")
+	if bearerToken == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Bearer token missing"})
+		return
+	}
+
 	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Verificar a existência do usuário
+	userName, err := checkUserExistence(req.UserID, bearerToken)
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -84,6 +101,7 @@ func CreateOrder(c *gin.Context) {
 	order := models.Order{
 		ID:        uuid.New().String(),
 		UserID:    req.UserID,
+		UserName:  userName, // Atribuir o nome do usuário verificado
 		Pair:      req.Pair,
 		Amount:    req.Amount,
 		Direction: req.Direction,
@@ -98,6 +116,53 @@ func CreateOrder(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, order)
+}
+
+func checkUserExistence(userID string, bearerToken string) (string, error) {
+	// URL do endpoint check-user no serviço crud-users
+	hostIP := "host.docker.internal"
+
+	url := fmt.Sprintf("http://%s:8080/api/v1/users/%s", hostIP, userID)
+
+	// Fazer uma requisição HTTP GET para o endpoint
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return "", err
+	}
+
+	// Adicionar o token ao cabeçalho da requisição
+	req.Header.Set("Authorization", bearerToken)
+
+	// Executar a requisição
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+
+	// Ler o corpo da resposta
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+
+	// Verificar se o status da resposta é OK (200)
+	if resp.StatusCode != http.StatusOK {
+		return "", fmt.Errorf("Failed to check user existence: %s", body)
+	}
+
+	// Extrair o nome do usuário do corpo da resposta
+	var response map[string]interface{}
+	if err := json.Unmarshal(body, &response); err != nil {
+		return "", err
+	}
+
+	userName, ok := response["name"].(string)
+	if !ok {
+		return "", fmt.Errorf("User name not found in response")
+	}
+
+	return userName, nil
 }
 
 // @Summary Delete a limit order by ID
