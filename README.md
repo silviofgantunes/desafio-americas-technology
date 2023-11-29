@@ -8,27 +8,16 @@ Requisitos das Aplicações:
 
 Cadastro de Usuários:
 
-Listar, exibir, criar, alterar e excluir usuários.
-Tabela de usuários (user): id, name, email, phone_number, created_at, updated_at.
+Listar, exibir, criar, alterar e excluir usuários.  Tabela de usuários (user): id, name, email, phone_number, created_at, updated_at.
 
 Serviço de Ordens:
 
-Listar, listar por usuário, exibir, criar, excluir ordem (limit).
-Tabela de ordens (compra e venda de crypto) (order): id, user_id, pair, amount, direction, type (market, limit), created_at, updated_at.
-Comunicação entre os serviços para garantir a consistência de dados.
-Padrões REST e documentação contendo endpoints e payloads utilizados.
+Listar, listar por usuário, exibir, criar, excluir ordem (limit).  Tabela de ordens (compra e venda de crypto) (order): id, user_id, pair, amount, direction, type (market, limit), created_at, updated_at.  Comunicação entre os serviços para garantir a consistência de dados.  Padrões REST e documentação contendo endpoints e payloads utilizados.
 
 Critérios de Avaliação Destacados:
 
-Uso de bibliotecas de terceiros e, possivelmente, de um framework, com justificação.
-Execução em containers Docker.
-Retorno de JSON válido e presença dos recursos citados.
-Código testável com testes unitários.
-Adesão a melhores práticas de segurança de APIs e diretrizes de estilo de código.
+Uso de bibliotecas de terceiros e, possivelmente, de um framework, com justificação.  Execução em containers Docker.  Retorno de JSON válido e presença dos recursos citados.  Código testável com testes unitários.  Adesão a melhores práticas de segurança de APIs e diretrizes de estilo de código.
 
 Pontos Considerados Bônus:
 
-Respostas durante o code review e descrição detalhada na "pull request".
-Setup da aplicação em apenas um comando ou script facilitador.
-Outros tipos de testes, como funcionais e de integração.
-Histórico de commits com mensagens descritivas.
+Respostas durante o code review e descrição detalhada na "pull request".  Setup da aplicação em apenas um comando ou script facilitador.  Outros tipos de testes, como funcionais e de integração.  Histórico de commits com mensagens descritivas.
