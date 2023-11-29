@@ -76,10 +76,16 @@ Responses during code review and detailed description in the "pull request." App
 
 # Observations
 
-It wasn't really possible to meet all of the bonus points that have been brought up above. The code is still undercommented, and the comments that do exist might be part in Portuguese and part in English. No unitary or integration tests were written for this project so far because of time constraints. In my own words, if I had to sum up what I did here for this project, I would say it consists of two CRUD applications: crud-users and order-service. With CRUD operations, the first one manages user data and the second one does orders. For both of them to be used, one needs to insert a BearerToken, which one can obtain by using a third CRUD application called auth-service that manages admin (an entity very similar to users but used only for the sake of authentication) data. One can do all typical CRUD operations with both crud-users and auth-service, but the latter has an extra endpoint: GenerateToken. With order-service, one can do all operations with the sole exception of updating an order. The deletion of an order is restricted only to limit orders. When creating a order with order-service, the application sends a request to crud-users to check if the user whose ID one inserted into the payload exists. If he or she does, then his or her name is also returned.
-Docker was used indeed with four images and four containers being set up: one for the MySQL database, a second one for the auth-service, a third one for crud-users and a fourth and last one for order-service.
-I've also uploaded a set of Postman collections (3/one for each service) and an environment. They're in the ./postman folder.
-The map of ports is the following: 8082 -> auth-service, 8080 -> crud-users and 8081 -> order-service
+It wasn't really possible to meet all of the bonus points mentioned above. The code is still undercommented, and the existing comments may be in both Portuguese and English. No unitary or integration tests have been written for this project so far due to time constraints.
+
+In my own words, if I had to summarize what I did for this project, I would say it consists of two CRUD applications: `crud-users` and `order-service`. With CRUD operations, the first one manages user data, and the second one handles orders. To use both of them, one needs to insert a BearerToken, obtainable by using a third CRUD application called `auth-service`, which manages admin (an entity very similar to users but used only for authentication) data.
+
+Typical CRUD operations can be performed with both `crud-users` and `auth-service`, but the latter has an extra endpoint: `GenerateToken`. With `order-service`, one can perform all operations with the sole exception of updating an order. The deletion of an order is restricted only to limit orders. When creating an order with `order-service`, the application sends a request to `crud-users` to check if the user whose ID is inserted into the payload exists. If they do, their name is also returned.
+
+Docker was indeed used with four images and four containers being set up: one for the MySQL database, a second one for `auth-service`, a third one for `crud-users`, and a fourth and last one for `order-service`.
+
+I've also uploaded a set of Postman collections (3, one for each service) and an environment. They're in the `./postman` folder. The mapping of ports is as follows: 8082 -> `auth-service`, 8080 -> `crud-users`, and 8081 -> `order-service`.
+
 
 HOW TO RUN THIS:
 
