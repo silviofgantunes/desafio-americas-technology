@@ -69,7 +69,7 @@ func GetOrder(c *gin.Context) {
 
 	var order models.Order
 	if err := db.First(&order, "id = ?", orderID).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Order not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "Order not found."})
 		return
 	}
 
@@ -93,7 +93,7 @@ func CreateOrder(c *gin.Context) {
 	// Retrieve the Bearer token from the Authorization header
 	bearerToken := c.GetHeader("Authorization")
 	if bearerToken == "" {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Bearer token missing"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Bearer token missing."})
 		return
 	}
 
@@ -159,7 +159,7 @@ func checkUserExistence(userID string, bearerToken string) (string, error) {
 
 	// Verificar se o status da resposta é OK (200)
 	if resp.StatusCode != http.StatusOK {
-		return "", fmt.Errorf("Failed to check user existence: %s", body)
+		return "", fmt.Errorf("Failed to check user's existence: %s", body)
 	}
 
 	// Extrair o nome do usuário do corpo da resposta
@@ -170,7 +170,7 @@ func checkUserExistence(userID string, bearerToken string) (string, error) {
 
 	userName, ok := response["name"].(string)
 	if !ok {
-		return "", fmt.Errorf("User name not found in response")
+		return "", fmt.Errorf("UserName not found in response.")
 	}
 
 	return userName, nil
@@ -191,15 +191,24 @@ func DeleteLimitOrder(c *gin.Context) {
 	orderID := c.Param("id")
 
 	var order models.Order
-	if err := db.First(&order, "id = ? AND type = ?", orderID, "limit").Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Limit order not found"})
+
+	// Check if the order exists with "type" as "market"
+	if err := db.First(&order, "id = ? AND type = ?", orderID, "market").Error; err == nil {
+		c.JSON(http.StatusForbidden, gin.H{"error": "Market orders not supposed to be deleted."})
 		return
 	}
 
+	// Check if the order exists with "type" as "limit"
+	if err := db.First(&order, "id = ? AND type = ?", orderID, "limit").Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Limit order not found."})
+		return
+	}
+
+	// Delete the limit order
 	if err := db.Delete(&order).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Limit order deleted successfully"})
+	c.JSON(http.StatusNoContent, gin.H{"message": "Limit order deleted successfully."})
 }

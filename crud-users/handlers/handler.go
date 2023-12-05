@@ -23,13 +23,13 @@ func GetUser(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	userID, err := uuid.Parse(c.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "UserID invalid."})
 		return
 	}
 
 	var user models.User
 	if err := db.First(&user, "id = ?", userID).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found."})
 		return
 	}
 
@@ -84,7 +84,7 @@ func UpdateUser(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	userID, err := uuid.Parse(c.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "UserID invalid."})
 		return
 	}
 
@@ -96,7 +96,7 @@ func UpdateUser(c *gin.Context) {
 
 	var user models.User
 	if err := db.First(&user, "id = ?", userID).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found."})
 		return
 	}
 
@@ -142,13 +142,13 @@ func DeleteUser(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	userID, err := uuid.Parse(c.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "UserID invalid."})
 		return
 	}
 
 	var user models.User
 	if err := db.First(&user, "id = ?", userID).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found."})
 		return
 	}
 
@@ -157,5 +157,5 @@ func DeleteUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "User deleted successfully"})
+	c.JSON(http.StatusNoContent, gin.H{"message": "User deleted successfully."})
 }

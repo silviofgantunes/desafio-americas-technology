@@ -14,15 +14,15 @@ docker network prune
 
 # 5) Start the database service
 sudo docker-compose up -d database
-sleep 3
+sleep 4
 
 # 6) Start the authentication service
 sudo docker-compose up -d auth-service
-sleep 3
+sleep 4
 
 # 7) Start the users service
 sudo docker-compose up -d crud-users
-sleep 3
+sleep 4
 
 # 8) Start the orders service
 sudo docker-compose up -d order-service

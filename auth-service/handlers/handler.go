@@ -37,7 +37,7 @@ func GenerateToken(c *gin.Context) {
 	// Check if the admin with the provided credentials exists in the database
 	var admin models.Admin
 	if err := db.Where("email = ? AND password = ?", credentials.Email, credentials.Password).First(&admin).Error; err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials."})
 		return
 	}
 
@@ -57,7 +57,7 @@ func GenerateToken(c *gin.Context) {
 
 	log.Printf(tokenString)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token."})
 		return
 	}
 
@@ -129,7 +129,7 @@ func GetAdmin(c *gin.Context) {
 
 	var admin models.Admin
 	if err := db.First(&admin, "id = ?", adminID).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Admin not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "Admin not found."})
 		return
 	}
 
@@ -152,7 +152,7 @@ func UpdateAdmin(c *gin.Context) {
 	// Check if the admin with the given ID exists
 	var existingAdmin models.Admin
 	if err := db.First(&existingAdmin, "id = ?", adminID).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Admin not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "Admin not found."})
 		return
 	}
 
@@ -190,7 +190,7 @@ func DeleteAdmin(c *gin.Context) {
 	// Check if the admin with the given ID exists
 	var existingAdmin models.Admin
 	if err := db.First(&existingAdmin, "id = ?", adminID).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Admin not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "Admin not found."})
 		return
 	}
 
